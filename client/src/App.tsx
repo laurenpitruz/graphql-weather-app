@@ -1,8 +1,8 @@
-import React, { useState, FormEvent, ChangeEvent, Fragment } from 'react'
+import React, { useState, FormEvent, ChangeEvent } from 'react'
 import { gql, useQuery } from '@apollo/client';
 import Loading from './loading'
-import Error from './error'
-import { FormControl, Input, InputLabel, Button } from '@material-ui/core'
+import { FormControl, Input, InputLabel, Button, Typography, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 //weather gql call
 const GET_WEATHER = gql`
@@ -31,6 +31,8 @@ interface Zip {
 export default function App () {
   const [zip, setZip] = useState('06111')
   const [nextZip, setNextZip] = useState('')
+  const classes = useStyles()
+
   const { data, loading, error } = useQuery(GET_WEATHER, {
     variables: { zip }
   })
@@ -44,10 +46,10 @@ export default function App () {
     setZip(`${nextZip}`)
     setNextZip('')
   }
-
   return (
-    <div className="weather-container">
-      <form onSubmit={resetZip} className="form">
+    <div className={classes.root}>
+      <Typography variant="h2" className={classes.header}>My amazing weather app!</Typography>
+      <form onSubmit={resetZip} className={classes.form}>
         <FormControl>
           <InputLabel>Enter Zip Code</InputLabel>
           <Input value={nextZip} onChange={handleZipChange}/>
@@ -55,21 +57,49 @@ export default function App () {
         <Button type="submit">Submit</Button>
       </form>
       {loading && <Loading />}
-      {error && <Error />}
+      {error && <Typography variant="body1">Oops there is an error! Try entering a new zip code.</Typography>}
       {data &&
-        <Fragment>
-          <h3>{data.weather.cityName} </h3>
-          <small>lon: {data.weather.longitude} | lat: {data.weather.latitude}</small>
-          <p>Currently:{data.weather.currentWeather.temp} F & {data.weather.currentWeather.status}</p>
-          <p>H: {data.weather.currentWeather.tempHigh}</p>
-          <p>L: {data.weather.currentWeather.tempLow}</p>
-          <p>Sunrise: {data.weather.sunrise}</p>
-          <p>Sunset:{data.weather.sunset}</p>
-        </Fragment>
+        <Grid container justify="center" direction="column" alignItems="center">
+          <Typography variant="h3" className={classes.city}>{data.weather.cityName} </Typography>
+          <Typography variant="body2">lon: {data.weather.longitude} | lat: {data.weather.latitude}</Typography>
+          <br />
+          <Typography variant="body1">Currently: {data.weather.currentWeather.temp} F & {data.weather.currentWeather.status}</Typography>
+          <br />
+          <Typography variant="body1">High: {data.weather.currentWeather.tempHigh} | Low: {data.weather.currentWeather.tempLow}</Typography>
+          <br />
+          <Typography>Sunrise: {data.weather.sunrise}</Typography>
+          <br />
+          <Typography>Sunset: {data.weather.sunset}</Typography>
+        </Grid>
       }
     </div>
   )
 }
+
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexFlow: 'nowrap',
+    margin: 'auto',
+    alignItems: 'center',
+    padding: '4em'
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexFlow: 'nowrap',
+    alignItems: 'center'
+  },
+  header: {
+    background: 'linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red)',
+    WebkitBackgroundClip: 'text',
+    color: 'transparent'
+  },
+  city: {
+    color: 'indigo'
+  }
+})
 
 
 
