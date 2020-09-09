@@ -24,10 +24,6 @@ const GET_WEATHER = gql`
   }
 `
 
-interface Zip {
-  zip: string;
-}
-
 export default function App () {
   const [zip, setZip] = useState('06111')
   const [nextZip, setNextZip] = useState('')

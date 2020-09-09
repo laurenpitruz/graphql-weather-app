@@ -6,7 +6,6 @@ const typeDefs = gql`
     id: ID!
     zip: String!
     cityName: String!
-    timezone: Int!
     longitude: Float!
     latitude: Float!
     currentWeather: CurrentWeather!

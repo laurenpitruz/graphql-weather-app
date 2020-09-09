@@ -1,8 +1,8 @@
 import React from 'react'
-import { Spinner } from 'reactstrap'
+import { CircularProgress } from '@material-ui/core'
 
 export default function Loading () {
   return (
-    <Spinner color="dark" />
+    <CircularProgress color="secondary" />
   )
 }

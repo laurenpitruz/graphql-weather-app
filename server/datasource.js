@@ -1,12 +1,15 @@
 const { RESTDataSource } = require('apollo-datasource-rest')
 
+//assuming we're in a dev environment, we're going to require secrets to keep from pasting our API key in our code
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 class WeatherAPI extends RESTDataSource {
   constructor() {
     super()
+    //this is the base url for our API call
     this.baseURL = 'http://api.openweathermap.org/data/2.5/weather'
   }
+  //
   async getWeather({ zip }) {
     const response = await this.get(`?zip=${zip},us&units=imperial&appid=${process.env.OPENWEATHER_API_KEY}`)
     return this.weatherReducer(response, zip)
@@ -18,7 +21,6 @@ class WeatherAPI extends RESTDataSource {
       id: weather.id || 0,
       zip: zip,
       cityName: weather.name,
-      timezone: weather.timezone,
       longitude: weather.coord.lon,
       latitude: weather.coord.lat,
       currentWeather: {
