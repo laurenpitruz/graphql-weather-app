@@ -64,9 +64,9 @@ export default function App () {
           <Typography variant="h3" className={classes.city}>{data.weather.cityName} </Typography>
           <Typography variant="body2">lon: {data.weather.longitude} | lat: {data.weather.latitude}</Typography>
           <br />
-          <Typography variant="body1">Currently: {data.weather.currentWeather.temp} F & {data.weather.currentWeather.status}</Typography>
+          <Typography variant="body1">Currently: {data.weather.currentWeather.temp} ˚F & {data.weather.currentWeather.status}</Typography>
           <br />
-          <Typography variant="body1">High: {data.weather.currentWeather.tempHigh} | Low: {data.weather.currentWeather.tempLow}</Typography>
+          <Typography variant="body1">High: {data.weather.currentWeather.tempHigh} ˚F | Low: {data.weather.currentWeather.tempLow} ˚F </Typography>
           <br />
           <Typography>Sunrise: {data.weather.sunrise}</Typography>
           <br />
@@ -91,6 +91,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     flexFlow: 'nowrap',
+    margin: '1em',
     alignItems: 'center'
   },
   header: {
