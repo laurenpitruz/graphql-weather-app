@@ -15,7 +15,6 @@ const typeDefs = gql`
   type CurrentWeather {
     status: String!
     description: String!
-    icon: String!
     temp: Float!
     feels_like: Float!
     tempHigh: Float!

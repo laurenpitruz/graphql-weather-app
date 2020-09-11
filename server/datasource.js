@@ -13,6 +13,7 @@ class WeatherAPI extends RESTDataSource {
   //this is our main fetch call for our weather query
   async getWeather({ zip }) {
     //use template literals so you can change the zip code with each query - our client side application will provide the zip
+    //process.env.OPENWEATHER_API_KEY is from our secrets.js file
     const response = await this.get(`?zip=${zip},us&units=imperial&appid=${process.env.OPENWEATHER_API_KEY}`)
     return this.weatherReducer(response, zip)
   }
