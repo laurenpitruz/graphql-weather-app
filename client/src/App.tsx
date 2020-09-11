@@ -5,6 +5,7 @@ import { FormControl, Input, InputLabel, Button, Typography, Grid } from '@mater
 import { makeStyles } from '@material-ui/core/styles'
 
 //weather gql call
+//notice that this query looks very similar to the queries you would do in the Apollo playground
 const GET_WEATHER = gql`
   query GetWeather($zip: String!) {
     weather(zip: $zip) {
@@ -25,18 +26,22 @@ const GET_WEATHER = gql`
 `
 
 export default function App () {
+  //we're going to set a default current zip and also have a nextZip field so we can capture what the user types into our form and reset the zip once they submit
   const [zip, setZip] = useState('06111')
   const [nextZip, setNextZip] = useState('')
   const classes = useStyles()
 
+  //one of the best things about the apollo useQuery hook is it can return multiple statuses based on the query result - it can return an error, a loading state and data, making it easy to then create components conditional on one of these states
   const { data, loading, error } = useQuery(GET_WEATHER, {
     variables: { zip }
   })
 
+  //the below event handler will change our nextZip variable as the user is typing
   const handleZipChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNextZip(e.currentTarget.value)
   }
 
+  //this event handler will make zip the value of nextZip and reset nextZip to an empty string
   const resetZip = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setZip(`${nextZip}`)
@@ -72,6 +77,7 @@ export default function App () {
   )
 }
 
+//styling
 const useStyles = makeStyles({
   root: {
     display: 'flex',
